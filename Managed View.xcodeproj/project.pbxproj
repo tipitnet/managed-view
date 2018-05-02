@@ -102,11 +102,11 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0800;
-				ORGANIZATIONNAME = "Aaron Maxim";
+				ORGANIZATIONNAME = Tipit;
 				TargetAttributes = {
 					BABE64301D635D7700F4EC2B = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = P994T22Q7J;
+						DevelopmentTeam = Y7FG9N5SL2;
 						LastSwiftMigration = 0830;
 					};
 				};
@@ -272,7 +272,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = P994T22Q7J;
+				DEVELOPMENT_TEAM = Y7FG9N5SL2;
 				INFOPLIST_FILE = "$(SRCROOT)/Managed View/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaronmaxim.ManagedView;
@@ -287,7 +287,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = P994T22Q7J;
+				DEVELOPMENT_TEAM = Y7FG9N5SL2;
 				INFOPLIST_FILE = "$(SRCROOT)/Managed View/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaronmaxim.ManagedView;
