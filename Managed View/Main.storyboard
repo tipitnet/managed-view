@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cib-43-GIW">
+    <device id="ipad10_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="t5a-tN-k5o">
+            <objects>
+                <viewController id="cib-43-GIW" customClass="ViewController" customModule="Managed_View" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="a1e-Tu-rjn">
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BNi-Sq-bjS">
+                                <rect key="frame" x="0.0" y="20" width="834" height="1092"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <gestureRecognizers/>
+                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES" shipmentTrackingNumber="YES" flightNumber="YES" lookupSuggestion="YES"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="Hje-jN-Eek" appends="YES" id="a81-KC-ZL4"/>
+                                </connections>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="BNi-Sq-bjS" firstAttribute="trailing" secondItem="ni8-EV-6oU" secondAttribute="trailing" id="5Q7-25-3T7"/>
+                            <constraint firstItem="BNi-Sq-bjS" firstAttribute="bottom" secondItem="ni8-EV-6oU" secondAttribute="bottom" id="f1F-T6-ya4"/>
+                            <constraint firstItem="BNi-Sq-bjS" firstAttribute="leading" secondItem="ni8-EV-6oU" secondAttribute="leading" id="fBG-2o-fAI"/>
+                            <constraint firstItem="BNi-Sq-bjS" firstAttribute="top" secondItem="ni8-EV-6oU" secondAttribute="top" id="yZR-Iv-HwZ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ni8-EV-6oU"/>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="BNi-Sq-bjS" id="gUo-ur-pNh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fXK-BV-TCo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Hje-jN-Eek">
+                    <connections>
+                        <action selector="tripleTap:" destination="cib-43-GIW" id="FNH-Tg-hGU"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="-632" y="-121"/>
+        </scene>
+    </scenes>
+</document>
