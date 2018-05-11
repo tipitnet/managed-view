@@ -11,7 +11,6 @@
 		9D1C077820A2237900B52FCA /* JGProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D1C077720A2237900B52FCA /* JGProgressHUD.framework */; };
 		9D26DDD520A0B4670039EEC0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D26DDCB20A0B4670039EEC0 /* ViewController.swift */; };
 		9D26DDD720A0B4670039EEC0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D26DDCD20A0B4670039EEC0 /* Assets.xcassets */; };
-		9D26DDDA20A0B4670039EEC0 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D26DDD220A0B4670039EEC0 /* Reachability.swift */; };
 		9D26DDDB20A0B4670039EEC0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D26DDD320A0B4670039EEC0 /* AppDelegate.swift */; };
 		9D26DDE120A0B5610039EEC0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D26DDDF20A0B5610039EEC0 /* LaunchScreen.storyboard */; };
 		9D26DDE420A0B6690039EEC0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D26DDE320A0B6690039EEC0 /* Main.storyboard */; };
@@ -24,7 +23,6 @@
 		9D1C077720A2237900B52FCA /* JGProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JGProgressHUD.framework; path = Carthage/Build/iOS/JGProgressHUD.framework; sourceTree = "<group>"; };
 		9D26DDCB20A0B4670039EEC0 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9D26DDCD20A0B4670039EEC0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		9D26DDD220A0B4670039EEC0 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		9D26DDD320A0B4670039EEC0 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D26DDD420A0B4670039EEC0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D26DDDF20A0B5610039EEC0 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -55,7 +53,6 @@
 		9D26DDCA20A0B4670039EEC0 /* Managed View */ = {
 			isa = PBXGroup;
 			children = (
-				9D26DDD220A0B4670039EEC0 /* Reachability.swift */,
 				9D26DDD320A0B4670039EEC0 /* AppDelegate.swift */,
 				9D26DDCB20A0B4670039EEC0 /* ViewController.swift */,
 				9D26DDCD20A0B4670039EEC0 /* Assets.xcassets */,
@@ -185,7 +182,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D26DDDA20A0B4670039EEC0 /* Reachability.swift in Sources */,
 				9D26DDDB20A0B4670039EEC0 /* AppDelegate.swift in Sources */,
 				9D26DDD520A0B4670039EEC0 /* ViewController.swift in Sources */,
 			);
