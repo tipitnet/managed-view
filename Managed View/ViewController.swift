@@ -232,7 +232,11 @@ class ViewController: UIViewController {
         
         return { success, failure in
             
-            URLSession.shared.dataTask(with: self.url!, completionHandler: { data, response, error in
+            var request = URLRequest(url: self.url!)
+            
+            request.cachePolicy = NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData
+            
+            URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
                 
                 guard error == nil, let data = data else {
                     
