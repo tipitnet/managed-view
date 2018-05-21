@@ -7,7 +7,7 @@
 import UIKit
 import JGProgressHUD
 
-class ViewController: UIViewController, UIWebViewDelegate {
+class ViewController: UIViewController {
     
     // let UserDefaults: Foundation.UserDefaults = Foundation.UserDefaults.standard
     
@@ -29,7 +29,41 @@ class ViewController: UIViewController, UIWebViewDelegate {
         
         didSet {
             
-            loadURL()
+            hud.textLabel.text = "Loading"
+            hud.show(in: self.view)
+            
+            retry(
+                task: {
+                    
+                    self.loadURL()
+                },
+                after: 15,
+                attempts: 240,
+                success: { response, data in
+                    
+                    DispatchQueue.main.async {
+                        
+                        self.hud.dismiss()
+                        self.webView.load(data, mimeType: "text/html", textEncodingName: "UTF-8", baseURL: self.url!)
+                    }
+                },
+                failure: { response, err in
+                    
+                    print("Failed: \(String(describing: err))")
+                    
+                    DispatchQueue.main.async {
+                        
+                        self.hud.dismiss()
+                    }
+                    
+                    let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    
+                    let alert = UIAlertController(title: "Unable to load", message: "Contact Volo! representative.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(action)
+                    
+                    self.present(alert, animated: true, completion: nil)
+                }
+            )
         }
     }
     
@@ -40,8 +74,6 @@ class ViewController: UIViewController, UIWebViewDelegate {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        webView.delegate = self
         
         setUrl()
         
@@ -194,78 +226,48 @@ class ViewController: UIViewController, UIWebViewDelegate {
         }
     }
     
-    func loadURL() {
+    typealias Async = (_ success: @escaping (URLResponse?, Data) -> (), _ failure: @escaping (URLResponse?, Error?) -> ()) -> ()
+    
+    func loadURL() -> Async {
         
-        if lastUrl != url {
-        
-            hud.textLabel.text = "Loading"
+        return { success, failure in
             
-            hud.show(in: self.view)
-            
-            checkInternet { internet in
+            URLSession.shared.dataTask(with: self.url!, completionHandler: { data, response, error in
                 
-                if internet {
+                guard error == nil, let data = data else {
                     
-                    let request = URLRequest(url: self.url!)
+                    failure(response, error)
                     
-                    self.webView.loadRequest(request)
-                    
-                } else {
-                    
-                    DispatchQueue.main.async {
-                        
-                        self.hud.dismiss()
-                    }
-                    
-                    self.retry()
+                    return
                 }
-            }
+                
+                success(response, data)
+                
+            }).resume()
         }
     }
     
-    func retry() {
+    func retry(task: @escaping () -> Async, after seconds: Int, attempts attempt: Int, success: @escaping (URLResponse?, Data) -> (), failure: @escaping (URLResponse?, Error?) -> ()) {
         
-        let action = UIAlertAction(title: "Retry", style: .default, handler: { action in
+        unowned let unownedSelf = self
+        
+        task() (success, { response, error in
             
-            self.loadURL()
-        })
-        
-        let alert = UIAlertController(title: "", message: "There is no internet connection", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(action)
-        
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    func checkInternet(completionHandler: @escaping (Bool) -> Void) {
-        
-        let url = URL(string: "http://www.appleiphonecell.com/")
-        
-        var request = URLRequest(url: url!)
-        request.cachePolicy = NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData
-        request.timeoutInterval = 3.0
-        
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { data, response, error -> Void in
+            if attempt <= 0 {
+                
+                failure(response, error)
+                
+                return
+            }
             
-            let httpResponse = response as? HTTPURLResponse
-            completionHandler(httpResponse?.statusCode == 200)
+            print("Retry for attempt: \(attempt)")
+            
+            let deadlineTime = DispatchTime.now() + .seconds(seconds)
+            
+            DispatchQueue.main.asyncAfter(deadline: deadlineTime, execute: {
+                
+                unownedSelf.retry(task: task, after: seconds, attempts: attempt - 1, success: success, failure: failure)
+            })
         })
-        
-        task.resume()
-    }
-    
-    // MARK: - UIWebViewDelegate
-    
-    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
-        
-        hud.dismiss()
-        
-        retry()
-    }
-    
-    func webViewDidFinishLoad(_ webView: UIWebView) {
-        
-        lastUrl = url
-        
-        hud.dismiss()
     }
 }
