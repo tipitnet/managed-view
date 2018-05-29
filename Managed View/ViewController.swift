@@ -29,41 +29,7 @@ class ViewController: UIViewController {
         
         didSet {
             
-            hud.textLabel.text = "Loading"
-            hud.show(in: self.view)
-            
-            retry(
-                task: {
-                    
-                    self.loadURL()
-                },
-                after: 15,
-                attempts: 240,
-                success: { response, data in
-                    
-                    DispatchQueue.main.async {
-                        
-                        self.hud.dismiss()
-                        self.webView.load(data, mimeType: "text/html", textEncodingName: "UTF-8", baseURL: self.url!)
-                    }
-                },
-                failure: { response, err in
-                    
-                    print("Failed: \(String(describing: err))")
-                    
-                    DispatchQueue.main.async {
-                        
-                        self.hud.dismiss()
-                    }
-                    
-                    let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-                    
-                    let alert = UIAlertController(title: "Unable to load", message: "Contact Volo! representative.", preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(action)
-                    
-                    self.present(alert, animated: true, completion: nil)
-                }
-            )
+            self.loadWebView()
         }
     }
     
@@ -273,5 +239,54 @@ class ViewController: UIViewController {
                 unownedSelf.retry(task: task, after: seconds, attempts: attempt - 1, success: success, failure: failure)
             })
         })
+    }
+    
+    func loadWebView() {
+        
+        if url != lastUrl {
+            
+            hud.textLabel.text = "Loading"
+            hud.show(in: self.view)
+            
+            retry(
+                task: {
+                    
+                    self.loadURL()
+                },
+                after: 15,
+                attempts: 240,
+                success: { response, data in
+                    
+                    self.lastUrl = self.url
+                    
+                    DispatchQueue.main.async {
+                        
+                        self.hud.dismiss()
+                        self.webView.load(data, mimeType: "text/html", textEncodingName: "UTF-8", baseURL: self.url!)
+                    }
+                },
+                failure: { response, err in
+                    
+                    print("Failed: \(String(describing: err))")
+                    
+                    DispatchQueue.main.async {
+                        
+                        self.hud.dismiss()
+                    }
+                    
+                    let action = UIAlertAction(title: "Retry", style: .default, handler: retryWebViewLoad)
+                    
+                    let alert = UIAlertController(title: "", message: "Can't connect to the network.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(action)
+                    
+                    self.present(alert, animated: true, completion: nil)
+                }
+            )
+        }
+        
+        func retryWebViewLoad(alert: UIAlertAction) {
+            
+            self.loadWebView()
+        }
     }
 }
