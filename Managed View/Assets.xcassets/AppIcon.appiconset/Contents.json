@@ -11,39 +11,33 @@
       "scale" : "3x"
     },
     {
-      "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "Manage View-29@2x.png",
+      "size" : "29x29",
       "scale" : "2x"
     },
     {
-      "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "Manage View-29@3x.png",
+      "size" : "29x29",
       "scale" : "3x"
     },
     {
-      "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "Manage View-40@2x.png",
+      "size" : "40x40",
       "scale" : "2x"
     },
     {
-      "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "Manage View-40@3x.png",
+      "size" : "40x40",
       "scale" : "3x"
     },
     {
-      "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "Manage View-60@2x.png",
+      "size" : "60x60",
       "scale" : "2x"
     },
     {
-      "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "Manage View-60@3x.png",
+      "size" : "60x60",
       "scale" : "3x"
     },
     {
@@ -59,48 +53,49 @@
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "Manage View-29.png",
+      "filename" : "ipad-ios-5-11-1x.png",
       "scale" : "1x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "Manage View-29@2x.png",
+      "filename" : "ipad-ios-5-11-2x.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "Manage View-40.png",
+      "filename" : "ipad-ios-7-11-1x.png",
       "scale" : "1x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "Manage View-40@2x.png",
+      "filename" : "ipad-ios-7-11-2x.png",
       "scale" : "2x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "Manage View-76.png",
+      "filename" : "ipad-app-ios-7-11-1x.png",
       "scale" : "1x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "Manage View-76@2x.png",
+      "filename" : "ipad-app-ios-7-11-2x.png",
       "scale" : "2x"
     },
     {
       "size" : "83.5x83.5",
       "idiom" : "ipad",
-      "filename" : "Manage View-83.5@2x.png",
+      "filename" : "ipad-pro-app-ios-9-11-2x.png",
       "scale" : "2x"
     },
     {
-      "idiom" : "ios-marketing",
       "size" : "1024x1024",
+      "idiom" : "ios-marketing",
+      "filename" : "app-store-ios-1x.png",
       "scale" : "1x"
     }
   ],
