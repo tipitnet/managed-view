@@ -5,21 +5,19 @@
 
 
 import UIKit
+import WebKit
 import JGProgressHUD
 
 class ViewController: UIViewController {
     
-    // let UserDefaults: Foundation.UserDefaults = Foundation.UserDefaults.standard
+    var webView: WKWebView!
     
-    @IBOutlet var webView: UIWebView!
+    var browser: WKWebView!
     
     let hud = JGProgressHUD(style: .dark)
     
     // Default URL to display in web view
     var defaultURL = URL(string: "http://maximlink.com/readme")
-
-    // Maintenance mode status
-    var MAINTENANCE_MODE = "OFF"
     
     // Last URL loaded in web view
     var lastUrl: URL?
@@ -29,14 +27,38 @@ class ViewController: UIViewController {
         
         didSet {
             
-            self.loadWebView()
+            loadWebView()
         }
     }
+    
+    // Maintenance mode status
+    var MAINTENANCE_MODE = "OFF"
     
     // Autonomous Single App Mode (Mode)
     var asamStatus:Bool = true
     var asamStatusString:String = ""
 
+    override func loadView() {
+        
+        super.loadView()
+        
+        let configuration = WKWebViewConfiguration()
+        configuration.setURLSchemeHandler(self, forURLScheme: "com.getvolo")
+        
+        webView = WKWebView(frame: view.frame, configuration: configuration)
+        webView.navigationDelegate = self
+        webView.scrollView.bounces = false
+        
+        view.addSubview(webView)
+        
+        browser = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
+        browser.navigationDelegate = self
+        browser.isHidden = true
+        browser.translatesAutoresizingMaskIntoConstraints = true
+        
+        view.addSubview(browser)
+    }
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -192,101 +214,167 @@ class ViewController: UIViewController {
         }
     }
     
-    typealias Async = (_ success: @escaping (URLResponse?, Data) -> (), _ failure: @escaping (URLResponse?, Error?) -> ()) -> ()
-    
-    func loadURL() -> Async {
-        
-        return { success, failure in
-            
-            var request = URLRequest(url: self.url!)
-            
-            request.cachePolicy = NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData
-            
-            URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
-                
-                guard error == nil, let data = data else {
-                    
-                    failure(response, error)
-                    
-                    return
-                }
-                
-                success(response, data)
-                
-            }).resume()
-        }
-    }
-    
-    func retry(task: @escaping () -> Async, after seconds: Int, attempts attempt: Int, success: @escaping (URLResponse?, Data) -> (), failure: @escaping (URLResponse?, Error?) -> ()) {
-        
-        unowned let unownedSelf = self
-        
-        task() (success, { response, error in
-            
-            if attempt <= 0 {
-                
-                failure(response, error)
-                
-                return
-            }
-            
-            print("Retry for attempt: \(attempt)")
-            
-            let deadlineTime = DispatchTime.now() + .seconds(seconds)
-            
-            DispatchQueue.main.asyncAfter(deadline: deadlineTime, execute: {
-                
-                unownedSelf.retry(task: task, after: seconds, attempts: attempt - 1, success: success, failure: failure)
-            })
-        })
-    }
-    
     func loadWebView() {
         
-        if url != lastUrl {
+        if let url = self.url,
+            url != lastUrl {
             
-            hud.textLabel.text = "Loading"
-            hud.show(in: self.view)
+            if !hud.isVisible {
+                
+                hud.textLabel.text = "Loading"
+                hud.show(in: self.view)
+            }
             
-            retry(
-                task: {
-                    
-                    self.loadURL()
-                },
-                after: 15,
-                attempts: 240,
-                success: { response, data in
-                    
-                    self.lastUrl = self.url
-                    
-                    DispatchQueue.main.async {
-                        
-                        self.hud.dismiss()
-                        self.webView.load(data, mimeType: "text/html", textEncodingName: "UTF-8", baseURL: self.url!)
-                    }
-                },
-                failure: { response, err in
-                    
-                    print("Failed: \(String(describing: err))")
-                    
-                    DispatchQueue.main.async {
-                        
-                        self.hud.dismiss()
-                    }
-                    
-                    let action = UIAlertAction(title: "Retry", style: .default, handler: retryWebViewLoad)
-                    
-                    let alert = UIAlertController(title: "", message: "Can't connect to the network.", preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(action)
-                    
-                    self.present(alert, animated: true, completion: nil)
-                }
-            )
+            var request = URLRequest(url: url)
+            request.timeoutInterval = 15
+            
+            webView.load(request)
+        }
+    }
+}
+
+extension ViewController: WKNavigationDelegate {
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        
+        if webView == self.webView {
+            
+            lastUrl = url
+            
+            hud.dismiss()
         }
         
-        func retryWebViewLoad(alert: UIAlertAction) {
+        if webView == browser {
             
-            self.loadWebView()
+            browser.backgroundColor = .white
+            browser.scrollView.backgroundColor = .white
+            
+            for subview in browser.scrollView.subviews {
+                
+                if String(describing: type(of: subview)) == "WKPDFView" {
+                    
+                    subview.backgroundColor = .white
+                }
+            }
+        }
+    }
+    
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        
+        if webView == self.webView {
+            
+            if lastUrl == nil {
+                
+                loadWebView()
+            }
+        }
+    }
+}
+
+extension ViewController: WKURLSchemeHandler {
+    
+    func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
+        
+        if let url = urlSchemeTask.request.url {
+            
+            _ = self.open(url: url)
+        }
+    }
+    
+    func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {
+    }
+    
+    func open(url: URL) -> Bool {
+        
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        
+        if let components = components {
+            
+            var frame = CGRect(x: 0, y: 0, width: 0, height: 0)
+            
+            if components.host == "open",
+                let queryItems = components.queryItems {
+                
+                for queryItem in queryItems {
+                    
+                    if queryItem.name == "x",
+                        let x = Float(queryItem.value!) {
+                        
+                        frame.origin.x = CGFloat(x)
+                    }
+                    
+                    if queryItem.name == "y",
+                        let y = Float(queryItem.value!) {
+                        
+                        frame.origin.y = CGFloat(y)
+                    }
+                    
+                    if queryItem.name == "width",
+                        let width = Float(queryItem.value!) {
+                        
+                        frame.size.width = CGFloat(width)
+                    }
+                    
+                    if queryItem.name == "height",
+                        let height = Float(queryItem.value!) {
+                        
+                        frame.size.height = CGFloat(height)
+                    }
+                    
+                    if queryItem.name == "url",
+                        let url = URL(string: queryItem.value!) {
+                        
+                        let request = URLRequest(url: url)
+                        browser.load(request)
+                    }
+                }
+            }
+            
+            browser.frame = frame
+            
+            browser.autoresizingMask =
+                [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin, .flexibleBottomMargin]
+            
+            browser.isHidden = false
+            
+        }
+        
+        if components?.host == "back" {
+            
+            browser.goBack()
+        }
+        
+        if components?.host == "close" {
+            
+            browser.load(URLRequest(url: URL(string: "about:blank")!))
+            
+            browser.isHidden = true
+            
+            browser.removeCookiesAndCache()
+        }
+        
+        return true
+    }
+}
+
+extension WKWebView {
+    
+    func removeCookiesAndCache() {
+        
+        let websiteDataStore = self.configuration.websiteDataStore
+        let cookieStore = websiteDataStore.httpCookieStore
+        
+        cookieStore.getAllCookies { cookies in
+            
+            for cookie in cookies {
+                
+                cookieStore.delete(cookie)
+            }
+        }
+        
+        websiteDataStore.fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+            
+            websiteDataStore.removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), for: records, completionHandler: {})
         }
     }
 }
