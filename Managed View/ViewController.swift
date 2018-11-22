@@ -216,13 +216,36 @@ class ViewController: UIViewController {
     
     func loadWebView() {
         
-        if let url = self.url,
+        if var url = self.url,
             url != lastUrl {
             
             if !hud.isVisible {
                 
                 hud.textLabel.text = "Loading"
                 hud.show(in: self.view)
+            }
+            
+            
+            if let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String,
+                var components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
+                
+                let version = URLQueryItem(name: "appversion", value: build)
+                
+                if var queryItems = components.queryItems {
+                    
+                    queryItems.append(version)
+                    
+                    components.queryItems = queryItems
+                }
+                else {
+                    
+                    components.queryItems = [version]
+                }
+                
+                if let newUrl = components.url {
+                    
+                    url = newUrl
+                }
             }
             
             var request = URLRequest(url: url)
