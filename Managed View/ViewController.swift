@@ -48,6 +48,7 @@ class ViewController: UIViewController {
         webView = WKWebView(frame: view.frame, configuration: configuration)
         webView.navigationDelegate = self
         webView.scrollView.bounces = false
+        webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         view.addSubview(webView)
         
