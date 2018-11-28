@@ -293,6 +293,17 @@ extension ViewController: WKNavigationDelegate {
             }
         }
     }
+    
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
+        
+        if let targetFrame = navigationAction.targetFrame,
+            !targetFrame.isMainFrame {
+            
+            webView.load(navigationAction.request)
+        }
+        
+        decisionHandler(.allow)
+    }
 }
 
 extension ViewController: WKURLSchemeHandler {
