@@ -308,12 +308,27 @@ extension ViewController: WKNavigationDelegate {
 
 extension ViewController: WKURLSchemeHandler {
     
+    struct URLSchemeError: Error {}
+    
     func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
         
         if let url = urlSchemeTask.request.url {
             
-            _ = self.open(url: url)
+            _ = open(url: url)
+            
+            /*
+            let jsonEncoder = JSONEncoder()
+            let jsonData = try! jsonEncoder.encode(result)
+            
+            let response = URLResponse(url: url, mimeType: "application/json", expectedContentLength: jsonData.count, textEncodingName: nil)
+            
+            urlSchemeTask.didReceive(response)
+            urlSchemeTask.didReceive(jsonData)
+            urlSchemeTask.didFinish()
+            */
         }
+        
+        urlSchemeTask.didFailWithError(URLSchemeError())
     }
     
     func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {
