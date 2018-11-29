@@ -42,10 +42,7 @@ class ViewController: UIViewController {
         
         super.loadView()
         
-        let configuration = WKWebViewConfiguration()
-        configuration.setURLSchemeHandler(self, forURLScheme: "com.getvolo")
-        
-        webView = WKWebView(frame: view.frame, configuration: configuration)
+        webView = WKWebView(frame: view.frame, configuration: WKWebViewConfiguration())
         webView.navigationDelegate = self
         webView.scrollView.bounces = false
         webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -296,42 +293,24 @@ extension ViewController: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
         
-        if let targetFrame = navigationAction.targetFrame,
-            !targetFrame.isMainFrame {
+        if webView == self.webView {
             
-            webView.load(navigationAction.request)
+            if let url = navigationAction.request.url,
+                url.scheme == "com.getvolo" {
+                
+                _ = open(url: url)
+                
+                decisionHandler(.cancel)
+                
+            } else {
+                
+                decisionHandler(.allow)
+            }
         }
-        
-        decisionHandler(.allow)
-    }
-}
-
-extension ViewController: WKURLSchemeHandler {
-    
-    struct URLSchemeError: Error {}
-    
-    func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
-        
-        if let url = urlSchemeTask.request.url {
+        else {
             
-            _ = open(url: url)
-            
-            /*
-            let jsonEncoder = JSONEncoder()
-            let jsonData = try! jsonEncoder.encode(result)
-            
-            let response = URLResponse(url: url, mimeType: "application/json", expectedContentLength: jsonData.count, textEncodingName: nil)
-            
-            urlSchemeTask.didReceive(response)
-            urlSchemeTask.didReceive(jsonData)
-            urlSchemeTask.didFinish()
-            */
+            decisionHandler(.allow)
         }
-        
-        urlSchemeTask.didFailWithError(URLSchemeError())
-    }
-    
-    func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {
     }
     
     func open(url: URL) -> Bool {
