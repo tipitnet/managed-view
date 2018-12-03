@@ -28,6 +28,7 @@ class ViewController: UIViewController {
         didSet {
             
             loadWebView()
+            closeBrowser()
         }
     }
     
@@ -223,7 +224,6 @@ class ViewController: UIViewController {
                 hud.show(in: self.view)
             }
             
-            
             if let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String,
                 var components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
                 
@@ -251,6 +251,15 @@ class ViewController: UIViewController {
             
             webView.load(request)
         }
+    }
+    
+    func closeBrowser() {
+        
+        browser.load(URLRequest(url: URL(string: "about:blank")!))
+        
+        browser.isHidden = true
+        
+        browser.removeCookiesAndCache()
     }
 }
 
@@ -299,18 +308,10 @@ extension ViewController: WKNavigationDelegate {
                 url.scheme == "com.getvolo" {
                 
                 _ = open(url: url)
-                
-                decisionHandler(.cancel)
-                
-            } else {
-                
-                decisionHandler(.allow)
             }
         }
-        else {
-            
-            decisionHandler(.allow)
-        }
+        
+        decisionHandler(.allow)
     }
     
     func open(url: URL) -> Bool {
@@ -375,11 +376,7 @@ extension ViewController: WKNavigationDelegate {
         
         if components?.host == "close" {
             
-            browser.load(URLRequest(url: URL(string: "about:blank")!))
-            
-            browser.isHidden = true
-            
-            browser.removeCookiesAndCache()
+            closeBrowser()
         }
         
         return true
