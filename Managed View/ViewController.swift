@@ -316,47 +316,43 @@ extension ViewController: WKNavigationDelegate {
     
     func open(url: URL) -> Bool {
         
-        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        
-        if let components = components {
+        if url.host == "open",
+            let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+            let queryItems = components.queryItems {
             
             var frame = CGRect(x: 0, y: 0, width: 0, height: 0)
             
-            if components.host == "open",
-                let queryItems = components.queryItems {
+            for queryItem in queryItems {
                 
-                for queryItem in queryItems {
+                if queryItem.name == "x",
+                    let x = Float(queryItem.value!) {
                     
-                    if queryItem.name == "x",
-                        let x = Float(queryItem.value!) {
-                        
-                        frame.origin.x = CGFloat(x)
-                    }
+                    frame.origin.x = CGFloat(x)
+                }
+                
+                if queryItem.name == "y",
+                    let y = Float(queryItem.value!) {
                     
-                    if queryItem.name == "y",
-                        let y = Float(queryItem.value!) {
-                        
-                        frame.origin.y = CGFloat(y)
-                    }
+                    frame.origin.y = CGFloat(y)
+                }
+                
+                if queryItem.name == "width",
+                    let width = Float(queryItem.value!) {
                     
-                    if queryItem.name == "width",
-                        let width = Float(queryItem.value!) {
-                        
-                        frame.size.width = CGFloat(width)
-                    }
+                    frame.size.width = CGFloat(width)
+                }
+                
+                if queryItem.name == "height",
+                    let height = Float(queryItem.value!) {
                     
-                    if queryItem.name == "height",
-                        let height = Float(queryItem.value!) {
-                        
-                        frame.size.height = CGFloat(height)
-                    }
+                    frame.size.height = CGFloat(height)
+                }
+                
+                if queryItem.name == "url",
+                    let url = URL(string: queryItem.value!) {
                     
-                    if queryItem.name == "url",
-                        let url = URL(string: queryItem.value!) {
-                        
-                        let request = URLRequest(url: url)
-                        browser.load(request)
-                    }
+                    let request = URLRequest(url: url)
+                    browser.load(request)
                 }
             }
             
@@ -367,19 +363,24 @@ extension ViewController: WKNavigationDelegate {
             
             browser.isHidden = false
             
+            return true
         }
         
-        if components?.host == "back" {
+        if url.host == "back" {
             
             browser.goBack()
+            
+            return true
         }
         
-        if components?.host == "close" {
+        if url.host == "close" {
             
             closeBrowser()
+            
+            return true
         }
         
-        return true
+        return false
     }
 }
 
