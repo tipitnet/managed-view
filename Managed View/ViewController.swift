@@ -32,6 +32,8 @@ class ViewController: UIViewController {
         }
     }
     
+    let blankUrl = URL(string: "about:blank")
+    
     // Maintenance mode status
     var MAINTENANCE_MODE = "OFF"
     
@@ -70,6 +72,25 @@ class ViewController: UIViewController {
             self.setUrl()
             
             print("reload")
+        }
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        if UIDevice.current.orientation.isLandscape,
+            browser.isHidden,
+            let url = url,
+            url != blankUrl {
+            
+            browser.isHidden = false
+        }
+        
+        if !UIDevice.current.orientation.isLandscape,
+            !browser.isHidden {
+            
+            browser.isHidden = true
         }
     }
     
@@ -255,7 +276,7 @@ class ViewController: UIViewController {
     
     func closeBrowser() {
         
-        browser.load(URLRequest(url: URL(string: "about:blank")!))
+        browser.load(URLRequest(url: blankUrl!))
         
         browser.isHidden = true
         
