@@ -388,7 +388,8 @@ extension ViewController: WKNavigationDelegate {
         }
         
         if url.host == "back",
-            browser.backForwardList.backItem != nil {
+            let blank = browser.backForwardList.backList.first,
+            browser.backForwardList.backItem != blank {
             
             browser.goBack()
             
