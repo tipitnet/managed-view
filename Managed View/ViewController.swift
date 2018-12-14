@@ -16,6 +16,8 @@ class ViewController: UIViewController {
     
     let hud = JGProgressHUD(style: .dark)
     
+    let blankUrl = URL(string: "about:blank")
+    
     // Default URL to display in web view
     var defaultURL = URL(string: "http://maximlink.com/readme")
     
@@ -31,8 +33,6 @@ class ViewController: UIViewController {
             closeBrowser()
         }
     }
-    
-    let blankUrl = URL(string: "about:blank")
     
     // Maintenance mode status
     var MAINTENANCE_MODE = "OFF"
