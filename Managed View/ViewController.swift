@@ -396,6 +396,20 @@ extension ViewController: WKNavigationDelegate {
             return true
         }
         
+        if url.host == "hide" {
+            
+            browser.isHidden = true
+            
+            return true
+        }
+        
+        if url.host == "show" {
+            
+            browser.isHidden = false
+            
+            return true
+        }
+        
         if url.host == "close" {
             
             closeBrowser()
