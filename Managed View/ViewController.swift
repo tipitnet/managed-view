@@ -34,6 +34,8 @@ class ViewController: UIViewController {
         }
     }
     
+    var browsing = false
+    
     // Maintenance mode status
     var MAINTENANCE_MODE = "OFF"
     
@@ -79,18 +81,9 @@ class ViewController: UIViewController {
         
         super.viewWillTransition(to: size, with: coordinator)
         
-        if UIDevice.current.orientation.isLandscape,
-            browser.isHidden,
-            let url = url,
-            url != blankUrl {
+        if browsing {
             
-            browser.isHidden = false
-        }
-        
-        if !UIDevice.current.orientation.isLandscape,
-            !browser.isHidden {
-            
-            browser.isHidden = true
+            browser.isHidden = !UIDevice.current.orientation.isLandscape
         }
     }
     
@@ -281,6 +274,8 @@ class ViewController: UIViewController {
         browser.isHidden = true
         
         browser.removeCookiesAndCache()
+        
+        browsing = false
     }
 }
 
@@ -383,6 +378,8 @@ extension ViewController: WKNavigationDelegate {
                 [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin, .flexibleBottomMargin]
             
             browser.isHidden = false
+            
+            browsing = true
             
             return true
         }
