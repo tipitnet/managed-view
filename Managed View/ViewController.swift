@@ -54,7 +54,10 @@ class ViewController: UIViewController {
         
         view.addSubview(webView)
         
-        browser = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
+        let configuration = WKWebViewConfiguration()
+        configuration.allowsInlineMediaPlayback = false
+        
+        browser = WKWebView(frame: .zero, configuration: configuration)
         browser.navigationDelegate = self
         browser.isHidden = true
         browser.translatesAutoresizingMaskIntoConstraints = true
