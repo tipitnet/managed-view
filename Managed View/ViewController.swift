@@ -370,6 +370,11 @@ extension ViewController: WKNavigationDelegate {
                 if queryItem.name == "url",
                     let url = URL(string: queryItem.value!) {
                     
+                    if let first = browser.backForwardList.backList.first {
+                        
+                        browser.go(to: first)
+                    }
+                    
                     let request = URLRequest(url: url)
                     browser.load(request)
                 }
@@ -387,11 +392,17 @@ extension ViewController: WKNavigationDelegate {
             return true
         }
         
-        if url.host == "back",
-            let blank = browser.backForwardList.backList.first,
-            browser.backForwardList.backItem != blank {
+        if url.host == "back" {
             
-            browser.goBack()
+            if let blank = browser.backForwardList.backList.first,
+                browser.backForwardList.backItem != blank {
+                
+                browser.goBack()
+            }
+            else {
+                
+                webView.evaluateJavaScript("window.history.back();", completionHandler: nil)
+            }
             
             return true
         }
