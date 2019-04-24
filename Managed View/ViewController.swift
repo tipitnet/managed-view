@@ -59,6 +59,7 @@ class ViewController: UIViewController {
         
         browser = WKWebView(frame: .zero, configuration: configuration)
         browser.navigationDelegate = self
+        browser.uiDelegate = self
         browser.isHidden = true
         browser.translatesAutoresizingMaskIntoConstraints = true
         
@@ -284,55 +285,6 @@ class ViewController: UIViewController {
 
 extension ViewController: WKNavigationDelegate {
     
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        
-        if webView == self.webView {
-            
-            lastUrl = url
-            
-            hud.dismiss()
-        }
-        
-        if webView == browser {
-            
-            browser.backgroundColor = .white
-            browser.scrollView.backgroundColor = .white
-            
-            for subview in browser.scrollView.subviews {
-                
-                if String(describing: type(of: subview)) == "WKPDFView" {
-                    
-                    subview.backgroundColor = .white
-                }
-            }
-        }
-    }
-    
-    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        
-        if webView == self.webView {
-            
-            if lastUrl == nil {
-                
-                loadWebView()
-            }
-        }
-    }
-    
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
-        
-        if webView == self.webView {
-            
-            if let url = navigationAction.request.url,
-                url.scheme == "com.getvolo" {
-                
-                _ = open(url: url)
-            }
-        }
-        
-        decisionHandler(.allow)
-    }
-    
     func open(url: URL) -> Bool {
         
         if url.host == "open",
@@ -429,6 +381,72 @@ extension ViewController: WKNavigationDelegate {
         }
         
         return false
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        
+        if webView == self.webView {
+            
+            lastUrl = url
+            
+            hud.dismiss()
+        }
+        
+        if webView == browser {
+            
+            browser.backgroundColor = .white
+            browser.scrollView.backgroundColor = .white
+            
+            for subview in browser.scrollView.subviews {
+                
+                if String(describing: type(of: subview)) == "WKPDFView" {
+                    
+                    subview.backgroundColor = .white
+                }
+            }
+        }
+    }
+    
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        
+        if webView == self.webView {
+            
+            if lastUrl == nil {
+                
+                loadWebView()
+            }
+        }
+    }
+    
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
+        
+        let url = navigationAction.request.url
+        
+        if let url = url,
+            url.scheme == "com.getvolo" {
+            
+            _ = open(url: url)
+        }
+        
+        if navigationAction.targetFrame?.isMainFrame == nil {
+            
+            webView.load(navigationAction.request)
+        }
+        
+        decisionHandler(.allow)
+    }
+}
+
+extension ViewController: WKUIDelegate {
+    
+    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        
+        if navigationAction.targetFrame?.isMainFrame == nil {
+            
+            webView.load(navigationAction.request)
+        }
+        
+        return nil
     }
 }
 
