@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     let blankUrl = URL(string: "about:blank")
     
     // Default URL to display in web view
-    var defaultURL = URL(string: "http://maximlink.com/readme")
+    var defaultURL = URL(string: "https://demo.getvolo.com/app/")
     
     // Last URL loaded in web view
     var lastUrl: URL?
