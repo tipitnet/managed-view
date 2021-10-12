@@ -47,17 +47,20 @@ class ViewController: UIViewController {
         
         super.loadView()
         
-        webView = WKWebView(frame: view.frame, configuration: WKWebViewConfiguration())
+        let webviewConfiguration = WKWebViewConfiguration()
+        webviewConfiguration.mediaTypesRequiringUserActionForPlayback = []
+        
+        webView = WKWebView(frame: view.frame, configuration: webviewConfiguration)
         webView.navigationDelegate = self
         webView.scrollView.bounces = false
         webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         view.addSubview(webView)
         
-        let configuration = WKWebViewConfiguration()
-        configuration.allowsInlineMediaPlayback = false
+        let browserConfiguration = WKWebViewConfiguration()
+        browserConfiguration.allowsInlineMediaPlayback = false
         
-        browser = WKWebView(frame: .zero, configuration: configuration)
+        browser = WKWebView(frame: .zero, configuration: browserConfiguration)
         browser.navigationDelegate = self
         browser.uiDelegate = self
         browser.isHidden = true
