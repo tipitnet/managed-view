@@ -59,6 +59,9 @@ class ViewController: UIViewController {
         
         let browserConfiguration = WKWebViewConfiguration()
         browserConfiguration.allowsInlineMediaPlayback = false
+        if #available(iOS 13.0, *) {
+            browserConfiguration.defaultWebpagePreferences.preferredContentMode = .mobile
+        }
         
         browser = WKWebView(frame: .zero, configuration: browserConfiguration)
         browser.navigationDelegate = self
