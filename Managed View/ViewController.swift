@@ -302,32 +302,48 @@ extension ViewController: WKNavigationDelegate {
             for queryItem in queryItems {
                 
                 if queryItem.name == "x",
-                    let x = Float(queryItem.value!) {
+                   let x = Float(queryItem.value!) {
                     
                     frame.origin.x = CGFloat(x)
                 }
                 
                 if queryItem.name == "y",
-                    let y = Float(queryItem.value!) {
+                   let y = Float(queryItem.value!) {
                     
                     frame.origin.y = CGFloat(y)
                 }
                 
                 if queryItem.name == "width",
-                    let width = Float(queryItem.value!) {
+                   let width = Float(queryItem.value!) {
                     
                     frame.size.width = CGFloat(width)
                 }
                 
                 if queryItem.name == "height",
-                    let height = Float(queryItem.value!) {
+                   let height = Float(queryItem.value!) {
                     
                     frame.size.height = CGFloat(height)
                 }
+
+                if #available(iOS 13.0, *) {
+                    if queryItem.name == "contentMode",
+                       let modeString = queryItem.value {
+                        
+                        switch modeString.lowercased() {
+                        case "mobile":
+                            browser.configuration.defaultWebpagePreferences.preferredContentMode = .mobile
+                        case "desktop":
+                            browser.configuration.defaultWebpagePreferences.preferredContentMode = .desktop
+                        default:
+                            print("Unsupported contentMode: \(modeString). Defaulting to mobile.")
+                            browser.configuration.defaultWebpagePreferences.preferredContentMode = .mobile
+                        }
+                    }
+                }
                 
                 if queryItem.name == "url",
-                    let url = URL(string: queryItem.value!) {
-                    
+                   let url = URL(string: queryItem.value!) {
+
                     if let first = browser.backForwardList.backList.first {
                         
                         browser.go(to: first)
