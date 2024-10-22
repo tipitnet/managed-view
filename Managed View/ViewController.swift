@@ -54,6 +54,9 @@ class ViewController: UIViewController {
         webView.navigationDelegate = self
         webView.scrollView.bounces = false
         webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        if #available(macOS 13.3, iOS 16.4, tvOS 16.4, *) {
+            webView.isInspectable = true
+        }
         
         view.addSubview(webView)
         
@@ -68,6 +71,9 @@ class ViewController: UIViewController {
         browser.uiDelegate = self
         browser.isHidden = true
         browser.translatesAutoresizingMaskIntoConstraints = true
+        if #available(macOS 13.3, iOS 16.4, tvOS 16.4, *) {
+            browser.isInspectable = true
+        }
         
         view.addSubview(browser)
     }
