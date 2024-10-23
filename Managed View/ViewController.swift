@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         didSet {
             
             loadWebView()
-            closeBrowser()
+            closeBrowser(clearCookiesAndCache: true)
         }
     }
     
@@ -283,13 +283,15 @@ class ViewController: UIViewController {
         }
     }
     
-    func closeBrowser() {
+    func closeBrowser(clearCookiesAndCache: Bool = false) {
         
         browser.load(URLRequest(url: blankUrl!))
         
         browser.isHidden = true
         
-        browser.removeCookiesAndCache()
+        if clearCookiesAndCache {
+            browser.removeCookiesAndCache()
+        }
         
         browsing = false
     }
