@@ -338,10 +338,13 @@ extension ViewController: WKNavigationDelegate {
                        let modeString = queryItem.value {
                         
                         switch modeString.lowercased() {
+
                         case "mobile":
                             browser.configuration.defaultWebpagePreferences.preferredContentMode = .mobile
+
                         case "desktop":
                             browser.configuration.defaultWebpagePreferences.preferredContentMode = .desktop
+
                         default:
                             print("Unsupported contentMode: \(modeString). Defaulting to mobile.")
                             browser.configuration.defaultWebpagePreferences.preferredContentMode = .mobile
