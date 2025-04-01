@@ -301,12 +301,15 @@ class ViewController: UIViewController {
     }
     
     func preloadKeyboard() {
+        // Create a hidden text field to trigger keyboard loading.
         let hiddenTextField = UITextField(frame: CGRect.zero)
         hiddenTextField.isHidden = true
         view.addSubview(hiddenTextField)
         
+        // Force the text field to become first responder to load the keyboard.
         hiddenTextField.becomeFirstResponder()
         
+        // Resign first responder shortly after so it doesn't interfere with your UI.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             hiddenTextField.resignFirstResponder()
             hiddenTextField.removeFromSuperview()
