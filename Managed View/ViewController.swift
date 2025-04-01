@@ -82,6 +82,8 @@ class ViewController: UIViewController {
         
         super.viewDidLoad()
         
+        preloadKeyboard()
+
         setUrl()
         
         // observe if App Config pushed from MDM
@@ -294,6 +296,19 @@ class ViewController: UIViewController {
         }
         
         browsing = false
+    }
+    
+    func preloadKeyboard() {
+        let hiddenTextField = UITextField(frame: CGRect.zero)
+        hiddenTextField.isHidden = true
+        view.addSubview(hiddenTextField)
+        
+        hiddenTextField.becomeFirstResponder()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            hiddenTextField.resignFirstResponder()
+            hiddenTextField.removeFromSuperview()
+        }
     }
 }
 
