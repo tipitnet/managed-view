@@ -82,6 +82,8 @@ class ViewController: UIViewController {
         
         super.viewDidLoad()
         
+        // keyboard warmup
+        // browser webview crashing on iOS 18 when the keyboard opens for the first time
         preloadKeyboard()
 
         setUrl()
