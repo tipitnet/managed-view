@@ -17,7 +17,9 @@ class ViewController: UIViewController {
     let hud = JGProgressHUD(style: .dark)
     
     let blankUrl = URL(string: "about:blank")
-    
+
+    let userAgentTextField = UITextField()
+
     // Default URL to display in web view
     var defaultURL = URL(string: "https://demo.getvolo.com/app/")
     
@@ -76,8 +78,40 @@ class ViewController: UIViewController {
         }
         
         view.addSubview(browser)
+
+        userAgentTextField.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 36)
+        userAgentTextField.placeholder = "Enter User-Agent"
+        userAgentTextField.textColor = .black
+        userAgentTextField.backgroundColor = .white
+        userAgentTextField.returnKeyType = .done
+        userAgentTextField.autocorrectionType = .no
+        userAgentTextField.autocapitalizationType = .none
+        userAgentTextField.isHidden = true
+        userAgentTextField.addTarget(self, action: #selector(userAgentEntered), for: .editingDidEndOnExit)
+        view.addSubview(userAgentTextField)
+
+        let fourFingerQuadTap = UITapGestureRecognizer(target: self, action: #selector(toggleUserAgentField))
+        fourFingerQuadTap.numberOfTouchesRequired = 4
+        fourFingerQuadTap.numberOfTapsRequired = 4
+        view.addGestureRecognizer(fourFingerQuadTap)
     }
-    
+
+    @objc func toggleUserAgentField() {
+        userAgentTextField.isHidden = !userAgentTextField.isHidden
+        if userAgentTextField.isHidden {
+            userAgentTextField.resignFirstResponder()
+        } else {
+            userAgentTextField.text = browser.customUserAgent
+        }
+    }
+
+    @objc func userAgentEntered() {
+        if let customUA = userAgentTextField.text, !customUA.isEmpty {
+            browser.customUserAgent = customUA
+            print("Custom User-Agent set: \(customUA)")
+        }
+    }
+
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -318,122 +352,138 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: WKNavigationDelegate {
-    
+
+    enum OpenURLAction: String {
+
+        case open
+        case back
+        case hide
+        case show
+        case close
+    }
+
+    enum OpenQueryItemKey: String {
+
+        case x
+        case y
+        case width
+        case height
+        case url
+        case ua
+        case contentMode
+    }
+
     func open(url: URL) -> Bool {
-        
-        if url.host == "open",
-            let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-            let queryItems = components.queryItems {
-            
-            var frame = CGRect(x: 0, y: 0, width: 0, height: 0)
-            
-            for queryItem in queryItems {
-                
-                if queryItem.name == "x",
-                   let x = Float(queryItem.value!) {
-                    
-                    frame.origin.x = CGFloat(x)
-                }
-                
-                if queryItem.name == "y",
-                   let y = Float(queryItem.value!) {
-                    
-                    frame.origin.y = CGFloat(y)
-                }
-                
-                if queryItem.name == "width",
-                   let width = Float(queryItem.value!) {
-                    
-                    frame.size.width = CGFloat(width)
-                }
-                
-                if queryItem.name == "height",
-                   let height = Float(queryItem.value!) {
-                    
-                    frame.size.height = CGFloat(height)
+
+        guard let host = url.host,
+              let action = OpenURLAction(rawValue: host) else {
+
+            return false
+        }
+
+        switch action {
+
+        case .open:
+
+            guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+                  let queryItems = components.queryItems else {
+
+                return false
+            }
+
+            var frame = CGRect.zero
+            var requestURL: URL?
+            var customUserAgent: String?
+
+            for item in queryItems {
+
+                guard let value = item.value,
+                      let key = OpenQueryItemKey(rawValue: item.name) else {
+
+                    continue
                 }
 
-                if #available(iOS 13.0, *) {
-                    if queryItem.name == "contentMode",
-                       let modeString = queryItem.value {
-                        
-                        switch modeString.lowercased() {
+                switch key {
 
-                        case "mobile":
-                            browser.configuration.defaultWebpagePreferences.preferredContentMode = .mobile
+                case .x:
+                    frame.origin.x = CGFloat(Float(value) ?? 0)
 
-                        case "desktop":
-                            browser.configuration.defaultWebpagePreferences.preferredContentMode = .desktop
+                case .y:
+                    frame.origin.y = CGFloat(Float(value) ?? 0)
 
-                        default:
-                            print("Unsupported contentMode: \(modeString). Defaulting to mobile.")
-                            browser.configuration.defaultWebpagePreferences.preferredContentMode = .mobile
-                        }
+                case .width:
+                    frame.size.width = CGFloat(Float(value) ?? 0)
+
+                case .height:
+                    frame.size.height = CGFloat(Float(value) ?? 0)
+
+                case .url:
+                    requestURL = URL(string: value)
+
+                case .ua:
+                    customUserAgent = value
+
+                case .contentMode:
+                    if #available(iOS 13.0, *) {
+
+                        let mode = value.lowercased()
+
+                        browser.configuration.defaultWebpagePreferences.preferredContentMode =
+                            (mode == "desktop") ? .desktop : .mobile
                     }
-                }
-                
-                if queryItem.name == "url",
-                   let url = URL(string: queryItem.value!) {
-
-                    if let first = browser.backForwardList.backList.first {
-                        
-                        browser.go(to: first)
-                    }
-                    
-                    let request = URLRequest(url: url)
-                    browser.load(request)
                 }
             }
-            
+
+            if let ua = customUserAgent {
+
+                browser.customUserAgent = ua
+            }
+
+            if let url = requestURL {
+
+                if let first = browser.backForwardList.backList.first {
+
+                    browser.go(to: first)
+                }
+
+                browser.load(URLRequest(url: url))
+            }
+
             browser.frame = frame
-            
+
             browser.autoresizingMask =
                 [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin, .flexibleBottomMargin]
-            
+
             browser.isHidden = false
-            
+
             browsing = true
-            
-            return true
-        }
-        
-        if url.host == "back" {
-            
+
+        case .back:
+
             if let blank = browser.backForwardList.backList.first,
-                browser.backForwardList.backItem != blank {
-                
+               browser.backForwardList.backItem != blank {
+
                 browser.goBack()
             }
             else {
-                
+
                 webView.evaluateJavaScript("window.history.back();", completionHandler: nil)
             }
-            
-            return true
-        }
-        
-        if url.host == "hide" {
-            
+
+        case .hide:
+
             browser.isHidden = true
-            
-            return true
-        }
-        
-        if url.host == "show" {
-            
+
+        case .show:
+
             browser.isHidden = false
-            
-            return true
-        }
-        
-        if url.host == "close" {
-            
+
+        case .close:
+
             closeBrowser()
-            
-            return true
         }
-        
-        return false
+
+        return true
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
