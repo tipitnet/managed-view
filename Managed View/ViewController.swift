@@ -109,10 +109,11 @@ class ViewController: UIViewController {
         setUrl()
         
         // observe if App Config pushed from MDM
-        NotificationCenter.default.addObserver(forName: UserDefaults.didChangeNotification, object: nil, queue: OperationQueue.main) { _ in
-            
+        NotificationCenter.default.addObserver(forName: UserDefaults.didChangeNotification, object: nil, queue: OperationQueue.main) { [weak self] _ in
+
+            guard let self else { return }
             self.setUrl()
-            
+
             print("reload")
         }
     }
