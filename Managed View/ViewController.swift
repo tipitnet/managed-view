@@ -527,20 +527,22 @@ extension ViewController: WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
-        
+
         let url = navigationAction.request.url
-        
+
         if let url = url,
             url.scheme == "com.getvolo" {
-            
+
             _ = open(url: url)
+            decisionHandler(.cancel)
+            return
         }
-        
+
         if navigationAction.targetFrame?.isMainFrame == nil {
-            
+
             webView.load(navigationAction.request)
         }
-        
+
         decisionHandler(.allow)
     }
 }
