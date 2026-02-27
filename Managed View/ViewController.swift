@@ -62,21 +62,7 @@ class ViewController: UIViewController {
         
         view.addSubview(webView)
         
-        let browserConfiguration = WKWebViewConfiguration()
-        browserConfiguration.allowsInlineMediaPlayback = true
-        if #available(iOS 13.0, *) {
-            browserConfiguration.defaultWebpagePreferences.preferredContentMode = .mobile
-        }
-        
-        browser = WKWebView(frame: .zero, configuration: browserConfiguration)
-        browser.navigationDelegate = self
-        browser.uiDelegate = self
-        browser.isHidden = true
-        browser.translatesAutoresizingMaskIntoConstraints = true
-        if #available(macOS 13.3, iOS 16.4, tvOS 16.4, *) {
-            browser.isInspectable = true
-        }
-        
+        createBrowser()
         view.addSubview(browser)
 
         userAgentTextField.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 36)
@@ -334,6 +320,24 @@ class ViewController: UIViewController {
         browsing = false
     }
     
+    func createBrowser() {
+
+        let browserConfiguration = WKWebViewConfiguration()
+        browserConfiguration.allowsInlineMediaPlayback = true
+        if #available(iOS 13.0, *) {
+            browserConfiguration.defaultWebpagePreferences.preferredContentMode = .mobile
+        }
+
+        browser = WKWebView(frame: .zero, configuration: browserConfiguration)
+        browser.navigationDelegate = self
+        browser.uiDelegate = self
+        browser.isHidden = true
+        browser.translatesAutoresizingMaskIntoConstraints = true
+        if #available(macOS 13.3, iOS 16.4, tvOS 16.4, *) {
+            browser.isInspectable = true
+        }
+    }
+
     func preloadKeyboard() {
         // Create a hidden text field to trigger keyboard loading.
         let hiddenTextField = UITextField(frame: CGRect.zero)
