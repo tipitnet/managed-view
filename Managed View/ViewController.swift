@@ -309,15 +309,15 @@ class ViewController: UIViewController {
     }
     
     func closeBrowser(clearCookiesAndCache: Bool = false) {
-        
-        browser.load(URLRequest(url: blankUrl!))
-        
-        browser.isHidden = true
-        
+
         if clearCookiesAndCache {
             browser.removeCookiesAndCache()
         }
-        
+
+        browser.load(URLRequest(url: blankUrl!))
+
+        browser.isHidden = true
+
         browsing = false
     }
     
