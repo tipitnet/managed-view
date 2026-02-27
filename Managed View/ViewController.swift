@@ -124,7 +124,7 @@ class ViewController: UIViewController {
         
         if browsing {
             
-            browser.isHidden = !UIDevice.current.orientation.isLandscape
+            browser.isHidden = !(size.width > size.height)
         }
     }
     
