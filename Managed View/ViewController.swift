@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     
     let hud = JGProgressHUD(style: .dark)
     
-    let blankUrl = URL(string: "about:blank")
+    let blankUrl = URL(string: "about:blank")!
 
     let userAgentTextField = UITextField()
 
@@ -320,7 +320,7 @@ class ViewController: UIViewController {
             browser.removeCookiesAndCache()
         }
 
-        browser.load(URLRequest(url: blankUrl!))
+        browser.load(URLRequest(url: blankUrl))
 
         browser.isHidden = true
 
