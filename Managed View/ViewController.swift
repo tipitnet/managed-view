@@ -37,7 +37,10 @@ class ViewController: UIViewController {
     }
     
     var browsing = false
-    
+
+    private var browserSessionURL: URL?
+    private var browserHistoryBase: Int?
+
     // Maintenance mode status
     var MAINTENANCE_MODE = "OFF"
     
@@ -310,6 +313,9 @@ class ViewController: UIViewController {
     
     func closeBrowser(clearCookiesAndCache: Bool = false) {
 
+        browserSessionURL = nil
+        browserHistoryBase = nil
+
         if clearCookiesAndCache {
             browser.removeCookiesAndCache()
         }
@@ -444,13 +450,12 @@ extension ViewController: WKNavigationDelegate {
                 browser.customUserAgent = ua
             }
 
+            browserSessionURL = requestURL
+            // +1 accounts for the current page (about:blank) that gets pushed onto
+            // backList when browser.load() starts — the real boundary is after that entry
+            browserHistoryBase = browser.backForwardList.backList.count + 1
+
             if let url = requestURL {
-
-                if let first = browser.backForwardList.backList.first {
-
-                    browser.go(to: first)
-                }
-
                 browser.load(URLRequest(url: url))
             }
 
@@ -465,13 +470,14 @@ extension ViewController: WKNavigationDelegate {
 
         case .back:
 
-            if let blank = browser.backForwardList.backList.first,
-               browser.backForwardList.backItem != blank {
-
+            if browsing,
+               let backItem = browser.backForwardList.backItem,
+               backItem.url != browserSessionURL,
+               backItem.url != blankUrl,
+               let base = browserHistoryBase,
+               browser.backForwardList.backList.count > base {
                 browser.goBack()
-            }
-            else {
-
+            } else {
                 webView.evaluateJavaScript("window.history.back();", completionHandler: nil)
             }
 
