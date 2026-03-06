@@ -396,6 +396,19 @@ class ViewController: UIViewController {
         browserProgressBar.setProgress(0.7, animated: true)
     }
 
+    private func fixBrowserBackground() {
+        browser.backgroundColor = .white
+        browser.scrollView.backgroundColor = .white
+
+        for subview in browser.scrollView.subviews {
+
+            if String(describing: type(of: subview)) == "WKPDFView" {
+
+                subview.backgroundColor = .white
+            }
+        }
+    }
+
     private func finishBrowserProgress() {
         browserProgressBar.setProgress(1.0, animated: true)
         UIView.animate(withDuration: 0.3, delay: 0.5) {
@@ -557,17 +570,7 @@ extension ViewController: WKNavigationDelegate {
         if webView == browser {
 
             finishBrowserProgress()
-
-            browser.backgroundColor = .white
-            browser.scrollView.backgroundColor = .white
-            
-            for subview in browser.scrollView.subviews {
-                
-                if String(describing: type(of: subview)) == "WKPDFView" {
-                    
-                    subview.backgroundColor = .white
-                }
-            }
+            fixBrowserBackground()
         }
     }
     
