@@ -69,7 +69,10 @@ class ViewController: UIViewController {
         createBrowser()
         view.addSubview(browser)
         setupBrowserProgressBar()
+        setupUserAgentField()
+    }
 
+    private func setupUserAgentField() {
         userAgentTextField.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 36)
         userAgentTextField.placeholder = "Enter User-Agent"
         userAgentTextField.textColor = .black
