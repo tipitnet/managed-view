@@ -9,9 +9,9 @@ import WebKit
 import JGProgressHUD
 
 class ViewController: UIViewController {
-    
+
     var webView: WKWebView!
-    
+
     var browser: WKWebView!
     
     let hud = JGProgressHUD(style: .dark)
@@ -19,6 +19,8 @@ class ViewController: UIViewController {
     let blankUrl = URL(string: "about:blank")!
 
     let userAgentTextField = UITextField()
+
+    private let browserProgressBar = ThinProgressView(progressViewStyle: .bar)
 
     // Default URL to display in web view
     var defaultURL = URL(string: "https://demo.getvolo.com/app/")
@@ -49,24 +51,24 @@ class ViewController: UIViewController {
     var asamStatusString:String = ""
 
     override func loadView() {
-        
+
         super.loadView()
-        
-        let webviewConfiguration = WKWebViewConfiguration()
-        webviewConfiguration.mediaTypesRequiringUserActionForPlayback = []
-        
-        webView = WKWebView(frame: view.frame, configuration: webviewConfiguration)
+
+        let configuration = WKWebViewConfiguration()
+        configuration.mediaTypesRequiringUserActionForPlayback = []
+
+        webView = WKWebView(frame: view.frame, configuration: configuration)
         webView.navigationDelegate = self
         webView.scrollView.bounces = false
         webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         if #available(macOS 13.3, iOS 16.4, tvOS 16.4, *) {
             webView.isInspectable = true
         }
-        
         view.addSubview(webView)
-        
+
         createBrowser()
         view.addSubview(browser)
+        setupBrowserProgressBar()
 
         userAgentTextField.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 36)
         userAgentTextField.placeholder = "Enter User-Agent"
@@ -104,7 +106,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+
         // keyboard warmup
         // browser webview crashing on iOS 18 when the keyboard opens for the first time
         preloadKeyboard()
@@ -126,8 +128,10 @@ class ViewController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
         
         if browsing {
-            
-            browser.isHidden = !(size.width > size.height)
+
+            let landscape = size.width > size.height
+            browser.isHidden = !landscape
+            browserProgressBar.isHidden = !landscape
         }
     }
     
@@ -313,6 +317,7 @@ class ViewController: UIViewController {
     
     func closeBrowser(clearCookiesAndCache: Bool = false) {
 
+        browsing = false
         browserSessionURL = nil
         browserHistoryBase = nil
 
@@ -320,11 +325,11 @@ class ViewController: UIViewController {
             browser.removeCookiesAndCache()
         }
 
+        browserProgressBar.alpha = 0
+        browserProgressBar.progress = 0
+
         browser.load(URLRequest(url: blankUrl))
-
         browser.isHidden = true
-
-        browsing = false
     }
     
     func createBrowser() {
@@ -339,7 +344,6 @@ class ViewController: UIViewController {
         browser.navigationDelegate = self
         browser.uiDelegate = self
         browser.isHidden = true
-        browser.translatesAutoresizingMaskIntoConstraints = true
         if #available(macOS 13.3, iOS 16.4, tvOS 16.4, *) {
             browser.isInspectable = true
         }
@@ -350,14 +354,45 @@ class ViewController: UIViewController {
         let hiddenTextField = UITextField(frame: CGRect.zero)
         hiddenTextField.isHidden = true
         view.addSubview(hiddenTextField)
-        
+
         // Force the text field to become first responder to load the keyboard.
         hiddenTextField.becomeFirstResponder()
-        
+
         // Resign first responder shortly after so it doesn't interfere with your UI.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             hiddenTextField.resignFirstResponder()
             hiddenTextField.removeFromSuperview()
+        }
+    }
+
+    // MARK: - Browser Progress Bar
+
+    private func setupBrowserProgressBar() {
+        browserProgressBar.progressTintColor = .black
+        browserProgressBar.trackTintColor = .clear
+        browserProgressBar.alpha = 0
+        view.addSubview(browserProgressBar)
+    }
+
+    private func startBrowserProgress() {
+        browserProgressBar.frame = CGRect(
+            x: browser.frame.origin.x,
+            y: browser.frame.origin.y,
+            width: browser.frame.width,
+            height: 2
+        )
+        view.bringSubview(toFront: browserProgressBar)
+        browserProgressBar.layer.removeAllAnimations()
+        browserProgressBar.setProgress(0, animated: false)
+        browserProgressBar.layoutIfNeeded()
+        browserProgressBar.alpha = 1
+        browserProgressBar.setProgress(0.7, animated: true)
+    }
+
+    private func finishBrowserProgress() {
+        browserProgressBar.setProgress(1.0, animated: true)
+        UIView.animate(withDuration: 0.3, delay: 0.5) {
+            self.browserProgressBar.alpha = 0
         }
     }
 }
@@ -455,18 +490,15 @@ extension ViewController: WKNavigationDelegate {
             // backList when browser.load() starts — the real boundary is after that entry
             browserHistoryBase = browser.backForwardList.backList.count + 1
 
+            browser.frame = frame
+            browser.autoresizingMask =
+                [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin, .flexibleBottomMargin]
+            browser.isHidden = false
+            browsing = true
+
             if let url = requestURL {
                 browser.load(URLRequest(url: url))
             }
-
-            browser.frame = frame
-
-            browser.autoresizingMask =
-                [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin, .flexibleBottomMargin]
-
-            browser.isHidden = false
-
-            browsing = true
 
         case .back:
 
@@ -484,10 +516,12 @@ extension ViewController: WKNavigationDelegate {
         case .hide:
 
             browser.isHidden = true
+            browserProgressBar.isHidden = true
 
         case .show:
 
             browser.isHidden = false
+            browserProgressBar.isHidden = false
 
         case .close:
 
@@ -497,6 +531,13 @@ extension ViewController: WKNavigationDelegate {
         return true
     }
     
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+
+        if webView == browser, browsing {
+            startBrowserProgress()
+        }
+    }
+
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
         if webView == self.webView {
@@ -507,7 +548,9 @@ extension ViewController: WKNavigationDelegate {
         }
         
         if webView == browser {
-            
+
+            finishBrowserProgress()
+
             browser.backgroundColor = .white
             browser.scrollView.backgroundColor = .white
             
@@ -522,13 +565,17 @@ extension ViewController: WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        
+
         if webView == self.webView {
-            
+
             if lastUrl == nil {
-                
+
                 loadWebView()
             }
+        }
+
+        if webView == browser {
+            finishBrowserProgress()
         }
     }
     
@@ -563,6 +610,13 @@ extension ViewController: WKUIDelegate {
         }
         
         return nil
+    }
+}
+
+class ThinProgressView: UIProgressView {
+
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return CGSize(width: size.width, height: 1.5)
     }
 }
 
