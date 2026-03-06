@@ -54,6 +54,16 @@ class ViewController: UIViewController {
 
         super.loadView()
 
+        createWebView()
+        view.addSubview(webView)
+
+        createBrowser()
+        view.addSubview(browser)
+        setupBrowserProgressBar()
+        setupUserAgentField()
+    }
+
+    private func createWebView() {
         let configuration = WKWebViewConfiguration()
         configuration.mediaTypesRequiringUserActionForPlayback = []
 
@@ -64,12 +74,6 @@ class ViewController: UIViewController {
         if #available(macOS 13.3, iOS 16.4, tvOS 16.4, *) {
             webView.isInspectable = true
         }
-        view.addSubview(webView)
-
-        createBrowser()
-        view.addSubview(browser)
-        setupBrowserProgressBar()
-        setupUserAgentField()
     }
 
     private func setupUserAgentField() {
