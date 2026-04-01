@@ -139,7 +139,7 @@ class ViewController: UIViewController {
 
     @IBAction func tripleTap(_ sender: AnyObject) {
 
-        asamEnabled = UIAccessibilityIsGuidedAccessEnabled()
+        asamEnabled = UIAccessibility.isGuidedAccessEnabled
         let statusString = asamEnabled ? "ENABLED" : "DISABLED"
         let toggleString = asamEnabled ? "Enabled" : "Disabled"
 
@@ -152,15 +152,15 @@ class ViewController: UIViewController {
         )
 
         sheet.addAction(UIAlertAction(title: toggleString, style: .default) { _ in
-            UIAccessibilityRequestGuidedAccessSession(true) { success in
+            UIAccessibility.requestGuidedAccessSession(enabled: true) { success in
                 print("INFO: ASAM request to set \(toggleString)")
                 let alert: UIAlertController
                 if success {
                     print("ASAM is \(toggleString)")
-                    alert = UIAlertController(title: "Success", message: "Autonomous Single App Mode is\n\n \(toggleString).", preferredStyle: UIAlertControllerStyle.alert)
+                    alert = UIAlertController(title: "Success", message: "Autonomous Single App Mode is\n\n \(toggleString).", preferredStyle: .alert)
                 } else {
                     print("INFO: ASAM is not capable.")
-                    alert = UIAlertController(title: "Autonomous Single App Mode is not supported", message: "This device does not currently support Autonomous Single App Mode (ASAM). ASAM requires the following:\n\n(1) Device is in supervised state.\n\n(2) Configuration profile supporting ASAM for this specific app installed on device.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert = UIAlertController(title: "Autonomous Single App Mode is not supported", message: "This device does not currently support Autonomous Single App Mode (ASAM). ASAM requires the following:\n\n(1) Device is in supervised state.\n\n(2) Configuration profile supporting ASAM for this specific app installed on device.", preferredStyle: .alert)
                 }
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)

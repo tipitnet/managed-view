@@ -164,7 +164,7 @@ extension BrowserSession: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         guard isBrowsing else { return }
         progressBar.frame = CGRect(x: 0, y: 0, width: webView.bounds.width, height: 2)
-        webView.bringSubview(toFront: progressBar)
+        webView.bringSubviewToFront(progressBar)
         progressBar.layer.removeAllAnimations()
         progressBar.setProgress(0, animated: false)
         progressBar.alpha = 1
