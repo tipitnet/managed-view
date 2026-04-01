@@ -330,7 +330,7 @@ extension ViewController: VoloCommandHandlerDelegate {
 
     func didReceiveBack() {
         if !browserSession.goBack() {
-            appWebView.evaluateJavaScript("window.history.back();", completionHandler: nil)
+            appWebView.goBack()
         }
     }
 
