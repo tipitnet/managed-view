@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		9D1C077420A2225F00B52FCA /* curtain.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D1C077320A2225F00B52FCA /* curtain.png */; };
 		9D1C077820A2237900B52FCA /* JGProgressHUD.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D1C077720A2237900B52FCA /* JGProgressHUD.xcframework */; };
+		AA000001BROWSERSESSION00 /* BrowserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002BROWSERSESSION00 /* BrowserSession.swift */; };
+		AA000003VOLOCMDHANDLR00 /* VoloCommandHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000004VOLOCMDHANDLR00 /* VoloCommandHandler.swift */; };
 		9D26DDD520A0B4670039EEC0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D26DDCB20A0B4670039EEC0 /* ViewController.swift */; };
 		9D26DDD720A0B4670039EEC0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D26DDCD20A0B4670039EEC0 /* Assets.xcassets */; };
 		9D26DDDB20A0B4670039EEC0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D26DDD320A0B4670039EEC0 /* AppDelegate.swift */; };
@@ -22,6 +24,8 @@
 		93F367471ECA837200BFC414 /* Screenshots */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Screenshots; sourceTree = "<group>"; };
 		9D1C077320A2225F00B52FCA /* curtain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = curtain.png; path = Assets.xcassets/curtain.imageset/curtain.png; sourceTree = "<group>"; };
 		9D1C077720A2237900B52FCA /* JGProgressHUD.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = JGProgressHUD.xcframework; path = Carthage/Build/JGProgressHUD.xcframework; sourceTree = "<group>"; };
+		AA000002BROWSERSESSION00 /* BrowserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserSession.swift; sourceTree = "<group>"; };
+		AA000004VOLOCMDHANDLR00 /* VoloCommandHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoloCommandHandler.swift; sourceTree = "<group>"; };
 		9D26DDCB20A0B4670039EEC0 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9D26DDCD20A0B4670039EEC0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9D26DDD320A0B4670039EEC0 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -55,6 +59,8 @@
 			isa = PBXGroup;
 			children = (
 				9D26DDD320A0B4670039EEC0 /* AppDelegate.swift */,
+				AA000002BROWSERSESSION00 /* BrowserSession.swift */,
+				AA000004VOLOCMDHANDLR00 /* VoloCommandHandler.swift */,
 				9D26DDCB20A0B4670039EEC0 /* ViewController.swift */,
 				9D26DDCD20A0B4670039EEC0 /* Assets.xcassets */,
 				9D26DDDF20A0B5610039EEC0 /* LaunchScreen.storyboard */,
@@ -198,6 +204,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D26DDDB20A0B4670039EEC0 /* AppDelegate.swift in Sources */,
+				AA000001BROWSERSESSION00 /* BrowserSession.swift in Sources */,
+				AA000003VOLOCMDHANDLR00 /* VoloCommandHandler.swift in Sources */,
 				9D26DDD520A0B4670039EEC0 /* ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
