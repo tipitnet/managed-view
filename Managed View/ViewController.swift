@@ -38,9 +38,8 @@ class ViewController: UIViewController {
     // Maintenance mode status
     var maintenanceMode = "OFF"
 
-    // Autonomous Single App Mode (Mode)
-    var asamStatus:Bool = true
-    var asamStatusString:String = ""
+    // Autonomous Single App Mode
+    var asamEnabled = true
 
     override func loadView() {
 
@@ -140,76 +139,37 @@ class ViewController: UIViewController {
 
     @IBAction func tripleTap(_ sender: AnyObject) {
 
-        // If ASAM is enabled
-        if (UIAccessibilityIsGuidedAccessEnabled() == true ) {
+        asamEnabled = UIAccessibilityIsGuidedAccessEnabled()
+        let statusString = asamEnabled ? "ENABLED" : "DISABLED"
+        let toggleString = asamEnabled ? "Enabled" : "Disabled"
 
-            asamStatus = true
-            asamStatusString = "ENABLED"
-        }
+        print("ASAM: \(asamEnabled)")
 
-        // if ASAM is not enabled
-        else {
+        let sheet = UIAlertController(
+            title: "Autonomous Single App Mode is currently\n \(statusString)",
+            message: "Select action",
+            preferredStyle: .actionSheet
+        )
 
-            asamStatus = false
-            asamStatusString = "DISABLED"
-        }
-
-        print (asamStatus)
-
-        // define dialog to user
-        let actionSheetController: UIAlertController = UIAlertController(title: "Autonomous Single App Mode is currently\n \(asamStatusString)", message: "Select action", preferredStyle: .actionSheet)
-
-
-        // Customize user dialog based on current state of ASAM and reguest ASAM state change
-        var message:String = "Disabled"
-
-        if (asamStatus) {
-            message = "Enabled"
-        }
-
-        setupASAM(enabled: asamStatus, actionSheetController: actionSheetController, message: message)
-
-        // Create and add the Cancel action
-        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .destructive) { action -> Void in
-            //Just dismiss the action sheet
-        }
-
-        actionSheetController.addAction(cancelAction)
-
-        // for iPad
-        actionSheetController.popoverPresentationController?.sourceView = view
-
-        // Present dialog to user
-        self.present(actionSheetController, animated: true, completion: nil)
-    }
-
-    func setupASAM(enabled:Bool, actionSheetController: UIAlertController, message:String) {
-
-        let asam: UIAlertAction = UIAlertAction(title: message, style: .default) { action -> Void in
+        sheet.addAction(UIAlertAction(title: toggleString, style: .default) { _ in
             UIAccessibilityRequestGuidedAccessSession(true) { success in
-
-                print("INFO: ASAM request to set \(message)")
-
+                print("INFO: ASAM request to set \(toggleString)")
+                let alert: UIAlertController
                 if success {
-
-                    print ("ASAM is \(message)")
-                    let asamAlert = UIAlertController(title: "Success", message: "Autonomous Single App Mode is\n\n \(message).", preferredStyle: UIAlertControllerStyle.alert)
-                    asamAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-
-                    self.present(asamAlert, animated: true, completion: nil)
-
+                    print("ASAM is \(toggleString)")
+                    alert = UIAlertController(title: "Success", message: "Autonomous Single App Mode is\n\n \(toggleString).", preferredStyle: UIAlertControllerStyle.alert)
                 } else {
-
-                    print ("INFO: ASAM is not capable.")
-                    let asamAlert = UIAlertController(title: "Autonomous Single App Mode is not supported", message: "This device does not currently support Automonous Single App Mode (ASAM).  ASAM requires the following:\n\n (1) Device is in supervised state.\n\n(2) Configuration profile supporting ASAM for this specific app installed on device.", preferredStyle: UIAlertControllerStyle.alert)
-                    asamAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-
-                    self.present(asamAlert, animated: true, completion: nil)
+                    print("INFO: ASAM is not capable.")
+                    alert = UIAlertController(title: "Autonomous Single App Mode is not supported", message: "This device does not currently support Autonomous Single App Mode (ASAM). ASAM requires the following:\n\n(1) Device is in supervised state.\n\n(2) Configuration profile supporting ASAM for this specific app installed on device.", preferredStyle: UIAlertControllerStyle.alert)
                 }
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
-        }
+        })
 
-        actionSheetController.addAction(asam)
+        sheet.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
+        sheet.popoverPresentationController?.sourceView = view
+        present(sheet, animated: true, completion: nil)
     }
 
     func setUrl() {
