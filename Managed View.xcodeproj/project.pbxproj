@@ -10,6 +10,7 @@
 		9D1C077420A2225F00B52FCA /* curtain.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D1C077320A2225F00B52FCA /* curtain.png */; };
 		9D1C077820A2237900B52FCA /* JGProgressHUD.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D1C077720A2237900B52FCA /* JGProgressHUD.xcframework */; };
 		AA000001BROWSERSESSION00 /* BrowserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002BROWSERSESSION00 /* BrowserSession.swift */; };
+		F100000226020224000A0001 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F100000126020224000A0001 /* SceneDelegate.swift */; };
 		AA000003VOLOCMDHANDLR00 /* VoloCommandHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000004VOLOCMDHANDLR00 /* VoloCommandHandler.swift */; };
 		9D26DDD520A0B4670039EEC0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D26DDCB20A0B4670039EEC0 /* ViewController.swift */; };
 		9D26DDD720A0B4670039EEC0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D26DDCD20A0B4670039EEC0 /* Assets.xcassets */; };
@@ -25,6 +26,7 @@
 		9D1C077320A2225F00B52FCA /* curtain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = curtain.png; path = Assets.xcassets/curtain.imageset/curtain.png; sourceTree = "<group>"; };
 		9D1C077720A2237900B52FCA /* JGProgressHUD.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = JGProgressHUD.xcframework; path = Carthage/Build/JGProgressHUD.xcframework; sourceTree = "<group>"; };
 		AA000002BROWSERSESSION00 /* BrowserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserSession.swift; sourceTree = "<group>"; };
+		F100000126020224000A0001 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		AA000004VOLOCMDHANDLR00 /* VoloCommandHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoloCommandHandler.swift; sourceTree = "<group>"; };
 		9D26DDCB20A0B4670039EEC0 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9D26DDCD20A0B4670039EEC0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 			children = (
 				9D26DDD320A0B4670039EEC0 /* AppDelegate.swift */,
 				AA000002BROWSERSESSION00 /* BrowserSession.swift */,
+				F100000126020224000A0001 /* SceneDelegate.swift */,
 				AA000004VOLOCMDHANDLR00 /* VoloCommandHandler.swift */,
 				9D26DDCB20A0B4670039EEC0 /* ViewController.swift */,
 				9D26DDCD20A0B4670039EEC0 /* Assets.xcassets */,
@@ -205,6 +208,7 @@
 			files = (
 				9D26DDDB20A0B4670039EEC0 /* AppDelegate.swift in Sources */,
 				AA000001BROWSERSESSION00 /* BrowserSession.swift in Sources */,
+				F100000226020224000A0001 /* SceneDelegate.swift in Sources */,
 				AA000003VOLOCMDHANDLR00 /* VoloCommandHandler.swift in Sources */,
 				9D26DDD520A0B4670039EEC0 /* ViewController.swift in Sources */,
 			);
