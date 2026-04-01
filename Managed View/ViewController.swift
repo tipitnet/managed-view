@@ -59,9 +59,7 @@ class ViewController: UIViewController {
         appWebView.navigationDelegate = self
         appWebView.scrollView.bounces = false
         appWebView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        if #available(macOS 13.3, iOS 16.4, tvOS 16.4, *) {
-            appWebView.isInspectable = true
-        }
+        appWebView.isInspectable = true
     }
 
     private func setupUserAgentField() {

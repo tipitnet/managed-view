@@ -32,9 +32,7 @@ final class BrowserSession: NSObject {
     override init() {
         let config = WKWebViewConfiguration()
         config.allowsInlineMediaPlayback = true
-        if #available(iOS 13.0, *) {
-            config.defaultWebpagePreferences.preferredContentMode = .mobile
-        }
+        config.defaultWebpagePreferences.preferredContentMode = .mobile
 
         view = WKWebView(frame: .zero, configuration: config)
 
@@ -43,9 +41,7 @@ final class BrowserSession: NSObject {
         view.navigationDelegate = self
         view.uiDelegate = self
         view.isHidden = true
-        if #available(macOS 13.3, iOS 16.4, tvOS 16.4, *) {
-            view.isInspectable = true
-        }
+        view.isInspectable = true
 
         progressBar.progressTintColor = .black
         progressBar.trackTintColor = .clear
@@ -69,10 +65,8 @@ final class BrowserSession: NSObject {
     func open(frame: CGRect, url: URL?, userAgent: String?, contentMode: String?) {
         if let ua = userAgent { view.customUserAgent = ua }
         if let mode = contentMode?.lowercased() {
-            if #available(iOS 13.0, *) {
-                view.configuration.defaultWebpagePreferences.preferredContentMode =
-                    (mode == "desktop") ? .desktop : .mobile
-            }
+            view.configuration.defaultWebpagePreferences.preferredContentMode =
+                (mode == "desktop") ? .desktop : .mobile
         }
 
         sessionURL = url
