@@ -3,38 +3,37 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		75795EA62F84596B0080DBDD /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 75795EA52F84596B0080DBDD /* JGProgressHUD */; };
+		75795EA82F8459BF0080DBDD /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 75795EA72F8459BF0080DBDD /* JGProgressHUD */; };
 		9D1C077420A2225F00B52FCA /* curtain.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D1C077320A2225F00B52FCA /* curtain.png */; };
-		9D1C077820A2237900B52FCA /* JGProgressHUD.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D1C077720A2237900B52FCA /* JGProgressHUD.xcframework */; };
-		AA000001BROWSERSESSION00 /* BrowserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002BROWSERSESSION00 /* BrowserSession.swift */; };
-		F100000226020224000A0001 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F100000126020224000A0001 /* SceneDelegate.swift */; };
-		AA000003VOLOCMDHANDLR00 /* VoloCommandHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000004VOLOCMDHANDLR00 /* VoloCommandHandler.swift */; };
 		9D26DDD520A0B4670039EEC0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D26DDCB20A0B4670039EEC0 /* ViewController.swift */; };
 		9D26DDD720A0B4670039EEC0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D26DDCD20A0B4670039EEC0 /* Assets.xcassets */; };
 		9D26DDDB20A0B4670039EEC0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D26DDD320A0B4670039EEC0 /* AppDelegate.swift */; };
 		9D26DDE120A0B5610039EEC0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D26DDDF20A0B5610039EEC0 /* LaunchScreen.storyboard */; };
 		9D26DDE420A0B6690039EEC0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D26DDE320A0B6690039EEC0 /* Main.storyboard */; };
-		9D1C077920A2237900B52FCA /* JGProgressHUD.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9D1C077720A2237900B52FCA /* JGProgressHUD.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AA000001BROWSERSESSION00 /* BrowserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002BROWSERSESSION00 /* BrowserSession.swift */; };
+		AA000003VOLOCMDHANDLR00 /* VoloCommandHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000004VOLOCMDHANDLR00 /* VoloCommandHandler.swift */; };
+		F100000226020224000A0001 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F100000126020224000A0001 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		938E753F1EB15F74000806F3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		93F367471ECA837200BFC414 /* Screenshots */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Screenshots; sourceTree = "<group>"; };
 		9D1C077320A2225F00B52FCA /* curtain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = curtain.png; path = Assets.xcassets/curtain.imageset/curtain.png; sourceTree = "<group>"; };
-		9D1C077720A2237900B52FCA /* JGProgressHUD.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = JGProgressHUD.xcframework; path = Carthage/Build/JGProgressHUD.xcframework; sourceTree = "<group>"; };
-		AA000002BROWSERSESSION00 /* BrowserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserSession.swift; sourceTree = "<group>"; };
-		F100000126020224000A0001 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		AA000004VOLOCMDHANDLR00 /* VoloCommandHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoloCommandHandler.swift; sourceTree = "<group>"; };
 		9D26DDCB20A0B4670039EEC0 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9D26DDCD20A0B4670039EEC0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9D26DDD320A0B4670039EEC0 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D26DDD420A0B4670039EEC0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D26DDDF20A0B5610039EEC0 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9D26DDE320A0B6690039EEC0 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		AA000002BROWSERSESSION00 /* BrowserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserSession.swift; sourceTree = "<group>"; };
+		AA000004VOLOCMDHANDLR00 /* VoloCommandHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoloCommandHandler.swift; sourceTree = "<group>"; };
 		BABE64311D635D7700F4EC2B /* Volo!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Volo!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F100000126020224000A0001 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,7 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D1C077820A2237900B52FCA /* JGProgressHUD.xcframework in Frameworks */,
+				75795EA82F8459BF0080DBDD /* JGProgressHUD in Frameworks */,
+				75795EA62F84596B0080DBDD /* JGProgressHUD in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,7 +52,6 @@
 		9D1C077620A2237900B52FCA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9D1C077720A2237900B52FCA /* JGProgressHUD.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -103,7 +102,6 @@
 				BABE642D1D635D7700F4EC2B /* Sources */,
 				BABE642E1D635D7700F4EC2B /* Frameworks */,
 				BABE642F1D635D7700F4EC2B /* Resources */,
-				9D1C077520A2231A00B52FCA /* Embed Frameworks */,
 				9D80276D21876208003647FF /* Increment Build */,
 			);
 			buildRules = (
@@ -147,6 +145,9 @@
 				Base,
 			);
 			mainGroup = BABE64281D635D7700F4EC2B;
+			packageReferences = (
+				75795EA22F84583B0080DBDD /* XCRemoteSwiftPackageReference "JGProgressHUD" */,
+			);
 			productRefGroup = BABE64321D635D7700F4EC2B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -169,20 +170,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		9D1C077520A2231A00B52FCA /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				9D1C077920A2237900B52FCA /* JGProgressHUD.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		9D80276D21876208003647FF /* Increment Build */ = {
@@ -319,7 +306,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -331,12 +319,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 5SUW7TXJQN;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build",
-				);
 				INFOPLIST_FILE = "$(SRCROOT)/Managed View/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.getvolo.App;
 				PRODUCT_NAME = "Volo!";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -351,12 +338,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 5SUW7TXJQN;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build",
-				);
 				INFOPLIST_FILE = "$(SRCROOT)/Managed View/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.getvolo.App;
 				PRODUCT_NAME = "Volo!";
 				SWIFT_VERSION = 5.0;
@@ -386,6 +372,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		75795EA22F84583B0080DBDD /* XCRemoteSwiftPackageReference "JGProgressHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/JonasGessner/JGProgressHUD";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		75795EA52F84596B0080DBDD /* JGProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 75795EA22F84583B0080DBDD /* XCRemoteSwiftPackageReference "JGProgressHUD" */;
+			productName = JGProgressHUD;
+		};
+		75795EA72F8459BF0080DBDD /* JGProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 75795EA22F84583B0080DBDD /* XCRemoteSwiftPackageReference "JGProgressHUD" */;
+			productName = JGProgressHUD;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BABE64291D635D7700F4EC2B /* Project object */;
 }
